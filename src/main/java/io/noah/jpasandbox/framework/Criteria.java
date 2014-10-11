@@ -16,8 +16,9 @@ public class Criteria {
 
     public Criteria eq(String key, String value) {
         if (dataMap.containsKey(key)) {
-            logger.warn("동일한 키로 데이터 저장을 요청받았습니다 => key: " + key + ", current: " + dataMap.get(key) + ", request: " + value);
+            logger.warn("동일한 키로 데이터 저장을 요청받았습니다. 기존 데이터는 삭제! => key: " + key + "가 " + dataMap.get(key) + "에서 request: " + value + "로 변경됨.");
         }
+        this.dataMap.put(key, value);
         return this;
     }
 

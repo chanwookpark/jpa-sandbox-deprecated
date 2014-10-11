@@ -14,5 +14,5 @@ public interface ProductRepository {
 
     Product update(Product p);
 
-    boolean remove(Product updatedProduct);
+    void remove(Product product);
 }

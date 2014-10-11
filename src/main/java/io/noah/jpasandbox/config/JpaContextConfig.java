@@ -51,6 +51,7 @@ public class JpaContextConfig {
         factory.setJpaVendorAdapter(vendorAdapter);
         factory.setPackagesToScan("io.noah.jpasandbox");
         factory.setDataSource(dataSource());
+        factory.setPersistenceUnitName("pu-sandbox");
 
         HashMap<String, Object> jpaProperties = new HashMap<String, Object>();
         jpaProperties.put("hibernate.temp.use_jdbc_metadata_defaults", false);

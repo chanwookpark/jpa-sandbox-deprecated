@@ -26,15 +26,14 @@ public class BasicCrudTests extends AbstractTransactionalJUnit4SpringContextTest
         Criteria c = Criteria.create().eq("manufacturer", p.getManufacturer());
 
         // 처음 조회 시에는 없고..
-        Product notFoundProduct = prdRepo.findByCriteria(c).get(0);
-        assertNull(notFoundProduct);
+        assertTrue(0 == prdRepo.findByCriteria(c).size());
 
         // 새로 생성하고
         Product persistentProduct = prdRepo.save(p);
         assertNotNull(persistentProduct);
         assertEquals(p.getManufacturer(), persistentProduct.getManufacturer());
 
-        // 조회하면 있고 (1st cache 지만..) -> SQL이 실행 안 되는지를 확인하자
+        // 조회하면 있고 -> SQL이 실행 안 되는지를 확인하자 -> 실행 됨
         Product foundProduct = prdRepo.findByCriteria(c).get(0);
         assertNotNull(foundProduct);
         assertEquals(p.getManufacturer(), foundProduct.getManufacturer());
@@ -52,8 +51,7 @@ public class BasicCrudTests extends AbstractTransactionalJUnit4SpringContextTest
         assertEquals(c.get("manufacturer"), foundProduct.getManufacturer());
 
         // 삭제하고 (-> SQL 수행 확인)
-        boolean result = prdRepo.remove(updatedProduct);
-        assertTrue(result);
+        prdRepo.remove(updatedProduct);
 
         // 다시 조회하면 없고..
         assertTrue(0 == prdRepo.findByCriteria(c).size());

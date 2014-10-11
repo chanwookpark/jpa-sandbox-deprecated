@@ -8,6 +8,16 @@
 		</layout>
 	</appender>
 
+    <logger name="org.springframework" additivity="false" >
+        <level value="warn" />
+        <appender-ref ref="console" />
+    </logger>
+
+    <logger name="org.hibernate" additivity="false" >
+        <level value="warn" />
+        <appender-ref ref="console" />
+    </logger>
+
 	<root>
 		<priority value="debug" />
 		<appender-ref ref="console" />
