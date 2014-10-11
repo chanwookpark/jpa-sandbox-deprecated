@@ -15,13 +15,17 @@ public class Criteria {
     private Map<String, String> dataMap = new ConcurrentHashMap<String, String>();
 
     public Criteria eq(String key, String value) {
-        if(dataMap.containsKey(key)) {
-            logger.warn("동일한 키로 데이터 저장을 요청받았습니다 => key: " + key +", current: " + dataMap.get(key) + ", request: " + value);
+        if (dataMap.containsKey(key)) {
+            logger.warn("동일한 키로 데이터 저장을 요청받았습니다 => key: " + key + ", current: " + dataMap.get(key) + ", request: " + value);
         }
         return this;
     }
 
     public static Criteria create() {
         return new Criteria();
+    }
+
+    public String get(String key) {
+        return dataMap.get(key);
     }
 }

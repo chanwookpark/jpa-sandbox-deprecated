@@ -9,7 +9,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
 import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
 
 /**
  * Created by chanwook on 2014. 10. 6..
@@ -27,7 +26,7 @@ public class BasicCrudTests extends AbstractTransactionalJUnit4SpringContextTest
         Criteria c = Criteria.create().eq("manufacturer", p.getManufacturer());
 
         // 처음 조회 시에는 없고..
-        Product notFoundProduct = prdRepo.findByCriteria(c);
+        Product notFoundProduct = prdRepo.findByCriteria(c).get(0);
         assertNull(notFoundProduct);
 
         // 새로 생성하고
@@ -36,7 +35,7 @@ public class BasicCrudTests extends AbstractTransactionalJUnit4SpringContextTest
         assertEquals(p.getManufacturer(), persistentProduct.getManufacturer());
 
         // 조회하면 있고 (1st cache 지만..) -> SQL이 실행 안 되는지를 확인하자
-        Product foundProduct = prdRepo.findByCriteria(c);
+        Product foundProduct = prdRepo.findByCriteria(c).get(0);
         assertNotNull(foundProduct);
         assertEquals(p.getManufacturer(), foundProduct.getManufacturer());
 
@@ -48,18 +47,16 @@ public class BasicCrudTests extends AbstractTransactionalJUnit4SpringContextTest
         assertEquals(foundProduct.getManufacturer(), updatedProduct.getManufacturer());
 
         // 다시 조회하고
-        c = Criteria.eq("manufacturer", foundProduct.getManufacturer());
-        foundProduct = prdRepo.findByCriteria(c);
-
-        assertEquals(c.get("manufacturer").getValue(), foundProduct.getManufacturer());
+        c.eq("manufacturer", foundProduct.getManufacturer());
+        foundProduct = prdRepo.findByCriteria(c).get(0);
+        assertEquals(c.get("manufacturer"), foundProduct.getManufacturer());
 
         // 삭제하고 (-> SQL 수행 확인)
         boolean result = prdRepo.remove(updatedProduct);
         assertTrue(result);
 
         // 다시 조회하면 없고..
-        notFoundProduct = prdRepo.findByCriteria(c);
-        assertNull(notFoundProduct);
+        assertTrue(0 == prdRepo.findByCriteria(c).size());
 
     }
 }

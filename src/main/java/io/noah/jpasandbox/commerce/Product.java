@@ -11,7 +11,7 @@ import java.io.Serializable;
 public class Product implements Serializable {
 
     @javax.persistence.Id
-    @GeneratedValue(generator = "ProductId", strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "MANUFACTURE", insertable = true, length = 100, nullable = false, unique = false, updatable = true)
