@@ -43,4 +43,5 @@ public class ProductRepositoryImpl implements ProductRepository {
     public void remove(Product product) {
         em.remove(product);
     }
+
 }

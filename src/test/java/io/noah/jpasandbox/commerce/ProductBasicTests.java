@@ -61,6 +61,12 @@ public class ProductBasicTests extends AbstractTransactionalJUnit4SpringContextT
 
     }
 
+    @Test
+    public void listingProduct() throws Exception {
+
+
+    }
+
     private Product createProduct() {
         return new Product("Apple Inc.", 100L, "맥북 2014 late", "최고급 맥북 14년 late 버전", new Date(), new Date());
     }
