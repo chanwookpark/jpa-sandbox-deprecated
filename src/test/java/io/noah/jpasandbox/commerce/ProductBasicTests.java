@@ -1,6 +1,7 @@
 package io.noah.jpasandbox.commerce;
 
-import io.noah.jpasandbox.commerce.repository.ProductRepository;
+import io.noah.jpasandbox.commerce.product.model.Product;
+import io.noah.jpasandbox.commerce.product.repository.ProductRepository;
 import io.noah.jpasandbox.config.JpaContextConfig;
 import io.noah.jpasandbox.framework.Criteria;
 import org.junit.Test;
@@ -8,13 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
+import java.util.Date;
+
 import static org.junit.Assert.*;
 
 /**
  * Created by chanwook on 2014. 10. 6..
  */
 @ContextConfiguration(classes = {JpaContextConfig.class})
-public class BasicCrudTests extends AbstractTransactionalJUnit4SpringContextTests {
+public class ProductBasicTests extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Autowired
     ProductRepository prdRepo;
@@ -22,7 +25,7 @@ public class BasicCrudTests extends AbstractTransactionalJUnit4SpringContextTest
     @Test
     public void simpleProductCrud() throws Exception {
 
-        Product p = new Product("뉴팩토리");
+        Product p = createProduct();
         Criteria c = Criteria.create().eq("manufacturer", p.getManufacturer());
 
         // 처음 조회 시에는 없고..
@@ -39,7 +42,7 @@ public class BasicCrudTests extends AbstractTransactionalJUnit4SpringContextTest
         assertEquals(p.getManufacturer(), foundProduct.getManufacturer());
 
         // 수정하고 (-> SQL 수행 확인)
-        foundProduct.setManufacturer("뉴뉴팩토리");
+        foundProduct.setManufacturer("뉴 애플닷컴");
         Product updatedProduct = prdRepo.update(foundProduct);
 
         assertNotNull(updatedProduct);
@@ -56,5 +59,9 @@ public class BasicCrudTests extends AbstractTransactionalJUnit4SpringContextTest
         // 다시 조회하면 없고..
         assertTrue(0 == prdRepo.findByCriteria(c).size());
 
+    }
+
+    private Product createProduct() {
+        return new Product("Apple Inc.", 100L, "맥북 2014 late", "최고급 맥북 14년 late 버전", new Date(), new Date());
     }
 }

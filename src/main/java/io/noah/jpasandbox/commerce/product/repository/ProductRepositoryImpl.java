@@ -1,6 +1,6 @@
-package io.noah.jpasandbox.commerce.repository;
+package io.noah.jpasandbox.commerce.product.repository;
 
-import io.noah.jpasandbox.commerce.Product;
+import io.noah.jpasandbox.commerce.product.model.Product;
 import io.noah.jpasandbox.framework.Criteria;
 import org.springframework.stereotype.Repository;
 
@@ -21,7 +21,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public List<Product> findByCriteria(Criteria c) {
         TypedQuery<Product> q = em.createQuery(
-                " SELECT p from io.noah.jpasandbox.commerce.Product p WHERE p.manufacturer = :manufacturer ORDER BY p.id ", Product.class);
+                " SELECT p from io.noah.jpasandbox.commerce.product.model.Product p WHERE p.manufacturer = :manufacturer ORDER BY p.id ", Product.class);
         q.setParameter("manufacturer", c.get("manufacturer"));
         List<Product> resultList = q.getResultList();
         return resultList;

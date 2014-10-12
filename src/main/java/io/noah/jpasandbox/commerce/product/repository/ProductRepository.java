@@ -1,6 +1,6 @@
-package io.noah.jpasandbox.commerce.repository;
+package io.noah.jpasandbox.commerce.product.repository;
 
-import io.noah.jpasandbox.commerce.Product;
+import io.noah.jpasandbox.commerce.product.model.Product;
 import io.noah.jpasandbox.framework.Criteria;
 
 /**
