@@ -18,7 +18,7 @@ public class ProductItem implements Serializable {
     private String itemName;
 
     @Column(name = "PRD_ITEM_STATUS", insertable = true, length = 2, nullable = false)
-    private ProductItemStatus status;
+    private ProductStatus status;
 
     public Long getId() {
         return id;
@@ -36,11 +36,11 @@ public class ProductItem implements Serializable {
         this.itemName = itemName;
     }
 
-    public ProductItemStatus getStatus() {
+    public ProductStatus getStatus() {
         return status;
     }
 
-    public void setStatus(ProductItemStatus status) {
+    public void setStatus(ProductStatus status) {
         this.status = status;
     }
 }

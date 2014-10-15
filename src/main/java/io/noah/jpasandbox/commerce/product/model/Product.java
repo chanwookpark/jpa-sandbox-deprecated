@@ -33,6 +33,9 @@ public class Product implements Serializable {
     @Column(name = "SALE_END_DATE", insertable = true, nullable = false)
     private Date saleEndDate;
 
+    @Column(name = "PRD_STATUS", insertable = true, length = 2, nullable = false)
+    private ProductStatus status = ProductStatus.OP;
+
     public Product() {
     }
 
@@ -83,5 +86,29 @@ public class Product implements Serializable {
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
+    }
+
+    public Date getSaleStartDate() {
+        return saleStartDate;
+    }
+
+    public void setSaleStartDate(Date saleStartDate) {
+        this.saleStartDate = saleStartDate;
+    }
+
+    public Date getSaleEndDate() {
+        return saleEndDate;
+    }
+
+    public void setSaleEndDate(Date saleEndDate) {
+        this.saleEndDate = saleEndDate;
+    }
+
+    public ProductStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ProductStatus status) {
+        this.status = status;
     }
 }

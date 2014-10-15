@@ -5,6 +5,6 @@ package io.noah.jpasandbox.commerce.product.model;
  * <p/>
  * Created by chanwook on 2014. 10. 13..
  */
-public enum ProductItemStatus {
+public enum ProductStatus {
     OP/*OPEN*/, TC/*TEMP_CLOSE*/, SO/*SOLD_OUT*/;
 }

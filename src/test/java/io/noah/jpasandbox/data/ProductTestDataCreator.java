@@ -12,7 +12,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
 
-import java.util.Date;
+import static io.noah.jpasandbox.framework.utils.DateUtils.getDate;
 
 /**
  * Created by chanwook on 2014. 10. 6..
@@ -28,22 +28,22 @@ public class ProductTestDataCreator extends AbstractJUnit4SpringContextTests {
     PlatformTransactionManager txManager;
 
     @Test
-    public void simpleProductCrud() throws Exception {
+    public void createProductData() throws Exception {
 
         DefaultTransactionAttribute def = new DefaultTransactionAttribute();
         TransactionStatus tx = txManager.getTransaction(def);
 
         try {
             // 전체 삭제
-            for (Product p : prdRepo.findByCriteria(Criteria.create())) {
+            for (Product p : prdRepo.findByHql(Criteria.create().eq("manufacturer", "Apple Inc."))) {
                 prdRepo.remove(p);
             }
 
-            prdRepo.save(new Product("Apple Inc.", 100L, "맥북프로 15인치 2014 late", "최고급 맥북 프로 15인치 14년 late 버전", new Date(), new Date()));
-            prdRepo.save(new Product("Apple Inc.", 80L, "맥북프로 13인치 2014 late", "최고급 맥북 프로 13인치 14년 late 버전", new Date(), new Date()));
-            prdRepo.save(new Product("Apple Inc.", 70L, "맥북프로 11인치 2014 late", "최고급 맥북 프로 11인치 14년 late 버전", new Date(), new Date()));
-            prdRepo.save(new Product("Apple Inc.", 90L, "맥북프로 15인치 2014 early", "최고급 맥북 프로 15인치 14년 early 버전", new Date(), new Date()));
-            prdRepo.save(new Product("Apple Inc.", 60L, "맥북프로 13인치 2014 early", "최고급 맥북 프로 13인치 14년 early 버전", new Date(), new Date()));
+            prdRepo.save(new Product("Apple Inc.", 100L, "맥북프로 15인치 2014 late", "최고급 맥북 프로 15인치 14년 late 버전", getDate(2014, 1, 1), getDate(2014, 12, 31)));
+            prdRepo.save(new Product("Apple Inc.", 80L, "맥북프로 13인치 2014 late", "최고급 맥북 프로 13인치 14년 late 버전", getDate(2014, 1, 1), getDate(2014, 12, 31)));
+            prdRepo.save(new Product("Apple Inc.", 70L, "맥북프로 11인치 2014 late", "최고급 맥북 프로 11인치 14년 late 버전", getDate(2014, 1, 1), getDate(2014, 12, 31)));
+            prdRepo.save(new Product("Apple Inc.", 90L, "맥북프로 15인치 2014 early", "최고급 맥북 프로 15인치 14년 early 버전", getDate(2014, 1, 1), getDate(2014, 12, 31)));
+            prdRepo.save(new Product("Apple Inc.", 60L, "맥북프로 13인치 2014 early", "최고급 맥북 프로 13인치 14년 early 버전", getDate(2014, 1, 1), getDate(2014, 12, 31)));
 
             txManager.commit(tx);
         } catch (Exception e) {
@@ -51,4 +51,5 @@ public class ProductTestDataCreator extends AbstractJUnit4SpringContextTests {
             throw new RuntimeException(e);
         }
     }
+
 }
