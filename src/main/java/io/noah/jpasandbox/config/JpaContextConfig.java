@@ -1,6 +1,9 @@
 package io.noah.jpasandbox.config;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import net.sf.log4jdbc.Log4jdbcProxyDataSource;
+import net.sf.log4jdbc.tools.Log4JdbcCustomFormatter;
+import net.sf.log4jdbc.tools.LoggingType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -16,8 +19,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.beans.PropertyVetoException;
-import java.sql.SQLException;
 import java.util.HashMap;
 
 /**
@@ -31,7 +32,28 @@ import java.util.HashMap;
 public class JpaContextConfig {
 
     @Bean
-    public DataSource dataSource() throws PropertyVetoException {
+    public DataSource dataSource() throws Exception {
+        Log4jdbcProxyDataSource proxyDataSource = new Log4jdbcProxyDataSource(originalDataSource());
+
+        Log4JdbcCustomFormatter formatter = getLog4jdbcFormatter();
+
+        proxyDataSource.setLogFormatter(formatter);
+        proxyDataSource.setLoginTimeout(1000);
+
+        return proxyDataSource;
+    }
+
+    @Bean
+    public Log4JdbcCustomFormatter getLog4jdbcFormatter() {
+        Log4JdbcCustomFormatter formatter = new Log4JdbcCustomFormatter();
+        formatter.setLoggingType(LoggingType.SINGLE_LINE);
+//        formatter.setMargin(19);
+        formatter.setSqlPrefix("SQL :: ");
+        return formatter;
+    }
+
+    @Bean
+    public DataSource originalDataSource() throws Exception {
         ComboPooledDataSource pool = new ComboPooledDataSource();
         pool.setDriverClass("com.mysql.jdbc.Driver");
         pool.setJdbcUrl("jdbc:mysql://localhost:3306/jpasandbox");
@@ -41,7 +63,7 @@ public class JpaContextConfig {
     }
 
     @Bean
-    public EntityManagerFactory entityManagerFactory() throws PropertyVetoException {
+    public EntityManagerFactory entityManagerFactory() throws Exception {
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         vendorAdapter.setGenerateDdl(true);
         vendorAdapter.setShowSql(true);
@@ -68,7 +90,7 @@ public class JpaContextConfig {
     }
 
     @Bean
-    public PlatformTransactionManager transactionManager() throws SQLException, PropertyVetoException {
+    public PlatformTransactionManager transactionManager() throws Exception {
         JpaTransactionManager txManager = new JpaTransactionManager();
         txManager.setEntityManagerFactory(entityManagerFactory());
         return txManager;

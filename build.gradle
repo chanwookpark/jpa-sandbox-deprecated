@@ -52,4 +52,6 @@ dependencies {
 //    compile 'org.postgresql:postgresql:9.3-1102-jdbc41'
     compile 'mysql:mysql-connector-java:5.1.33'
 
+    compile 'org.lazyluke:log4jdbc-remix:0.2.7'
+
 }
