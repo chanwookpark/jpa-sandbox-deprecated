@@ -49,9 +49,6 @@ dependencies {
     compile 'org.slf4j:jcl-over-slf4j:1.7.7'
 
     // DataAccess (DB)
-//    compile 'org.postgresql:postgresql:9.3-1102-jdbc41'
-    compile 'mysql:mysql-connector-java:5.1.33'
-
-    compile 'org.lazyluke:log4jdbc-remix:0.2.7'
+    compile 'com.h2database:h2:1.4.182'
 
 }

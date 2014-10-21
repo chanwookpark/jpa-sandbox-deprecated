@@ -2,7 +2,6 @@ package io.noah.jpasandbox.data;
 
 import io.noah.jpasandbox.commerce.product.model.Product;
 import io.noah.jpasandbox.commerce.product.repository.ProductRepository;
-import io.noah.jpasandbox.config.JpaContextConfig;
 import io.noah.jpasandbox.framework.Criteria;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,7 @@ import static io.noah.jpasandbox.framework.utils.DateUtils.getDate;
  * Created by chanwook on 2014. 10. 6..
  */
 //TODO 테스트 데이터 생성하는 별도 방식 개발 및 적용... 일단 클래스 생성해서 집어 넣기!
-@ContextConfiguration(classes = {JpaContextConfig.class})
+@ContextConfiguration(classes = {io.noah.jpasandbox.step1.JpaContextConfig.class})
 public class ProductTestDataCreator extends AbstractJUnit4SpringContextTests {
 
     @Autowired

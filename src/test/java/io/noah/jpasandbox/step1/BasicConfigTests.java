@@ -1,4 +1,4 @@
-package io.noah.jpasandbox.config;
+package io.noah.jpasandbox.step1;
 
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
