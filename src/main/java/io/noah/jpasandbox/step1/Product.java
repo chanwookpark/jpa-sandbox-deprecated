@@ -27,17 +27,17 @@ public class Product {
     private Date saleOpen;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date saleEnd;
+    private Date saleClose;
 
     public Product() {
     }
 
-    public Product(String name, String category, long salePrice, Date saleOpen, Date saleEnd) {
+    public Product(String name, String category, long salePrice, Date saleOpen, Date saleClose) {
         this.name = name;
         this.category = category;
         this.salePrice = salePrice;
         this.saleOpen = saleOpen;
-        this.saleEnd = saleEnd;
+        this.saleClose = saleClose;
     }
 
     public Long getId() {
@@ -80,11 +80,11 @@ public class Product {
         this.saleOpen = saleOpen;
     }
 
-    public Date getSaleEnd() {
-        return saleEnd;
+    public Date getSaleClose() {
+        return saleClose;
     }
 
-    public void setSaleEnd(Date saleEnd) {
-        this.saleEnd = saleEnd;
+    public void setSaleClose(Date saleEnd) {
+        this.saleClose = saleEnd;
     }
 }

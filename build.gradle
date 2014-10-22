@@ -37,7 +37,6 @@ dependencies {
     // Hibernate
     compile 'org.hibernate:hibernate-core:4.1.11.Final'
     compile 'org.hibernate:hibernate-entitymanager:4.1.11.Final'
-    compile 'org.hibernate:hibernate-tools:4.1.11.Final'
     compile 'org.hibernate:hibernate-envers:4.1.11.Final'
     compile 'org.hibernate:hibernate-c3p0:3.6.10.Final'
     compile 'org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final'

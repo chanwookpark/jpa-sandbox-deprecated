@@ -2,6 +2,7 @@ package io.noah.jpasandbox.step1;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
@@ -24,7 +25,12 @@ public class SimpleConceptTests extends AbstractTransactionalJUnit4SpringContext
     EntityManager em;
 
     @Autowired
-    ProductDao dao;
+    @Qualifier("hqlDao")
+    ProductDao hqlDao;
+
+    @Autowired
+    @Qualifier("criteriaDao")
+    ProductDao criteriaDao;
 
     @Test
     public void config() throws Exception {
@@ -45,7 +51,7 @@ public class SimpleConceptTests extends AbstractTransactionalJUnit4SpringContext
         assertEquals(p.getName(), loaded.getName());
         assertEquals(p.getSalePrice(), loaded.getSalePrice());
         assertEquals(p.getSaleOpen(), loaded.getSaleOpen());
-        assertEquals(p.getSaleEnd(), loaded.getSaleEnd());
+        assertEquals(p.getSaleClose(), loaded.getSaleClose());
 
         // 수정 (U)
         String newName = "맥북리뉴";
@@ -62,13 +68,13 @@ public class SimpleConceptTests extends AbstractTransactionalJUnit4SpringContext
     }
 
     @Test
-    public void queryWithCriteria() throws Exception {
+    public void queryWithHql() throws Exception {
         createTestProduct(10);
 
-        List<Product> list = dao.find();
+        List<Product> list = hqlDao.find();
         assertTrue(10 == list.size());
 
-        list = dao.find(2, 3);
+        list = hqlDao.find(2, 3);
         assertTrue("real: " + list.size(), 3 == list.size());
         /* 기본 정렬일 때
         assertEquals("맥북v4", list.get(0).getName());
@@ -85,7 +91,7 @@ public class SimpleConceptTests extends AbstractTransactionalJUnit4SpringContext
         em.persist(new Product("옛날맥북", "노트북", 100000, toDate("2013-01-01 09:00:00"), toDate("2013-12-31 11:59:59")));
         em.persist(new Product("미래맥북", "노트북", 1000000, toDate("2015-01-01 09:00:00"), toDate("2015-12-31 11:59:59")));
 
-        list = dao.find(1, 5);
+        list = hqlDao.find(1, 5);
         assertEquals("맥북v10", list.get(0).getName());
         assertEquals("맥북v9", list.get(1).getName());
         assertEquals("맥북v8", list.get(2).getName());
@@ -93,7 +99,46 @@ public class SimpleConceptTests extends AbstractTransactionalJUnit4SpringContext
         assertEquals("맥북v6", list.get(4).getName());
 
         em.persist(new Product("애플TV", "가전제품", 10000000, toDate("2014-01-01 09:00:00"), toDate("2014-12-31 11:59:59")));
-        list = dao.find(1, 3, "노트북");
+        list = hqlDao.find(1, 3, "노트북");
+        assertTrue(3 == list.size());
+        assertEquals("맥북v10", list.get(0).getName());
+        assertEquals("맥북v9", list.get(1).getName());
+        assertEquals("맥북v8", list.get(2).getName());
+    }
+
+    @Test
+    public void queryWithCriteria() throws Exception {
+        createTestProduct(10);
+
+        List<Product> list = criteriaDao.find();
+        assertTrue(10 == list.size());
+
+        list = criteriaDao.find(2, 3);
+        assertTrue("real: " + list.size(), 3 == list.size());
+        /* 기본 정렬일 때
+        assertEquals("맥북v4", list.get(0).getName());
+        assertEquals("맥북v5", list.get(1).getName());
+        assertEquals("맥북v6", list.get(2).getName());
+        */
+
+        /* 높은 가격 순 정렬 일 때*/
+        assertEquals("맥북v7", list.get(0).getName());
+        assertEquals("맥북v6", list.get(1).getName());
+        assertEquals("맥북v5", list.get(2).getName());
+
+        // 현재 판매 가능 상품만
+        em.persist(new Product("옛날맥북", "노트북", 100000, toDate("2013-01-01 09:00:00"), toDate("2013-12-31 11:59:59")));
+        em.persist(new Product("미래맥북", "노트북", 1000000, toDate("2015-01-01 09:00:00"), toDate("2015-12-31 11:59:59")));
+
+        list = criteriaDao.find(1, 5);
+        assertEquals("맥북v10", list.get(0).getName());
+        assertEquals("맥북v9", list.get(1).getName());
+        assertEquals("맥북v8", list.get(2).getName());
+        assertEquals("맥북v7", list.get(3).getName());
+        assertEquals("맥북v6", list.get(4).getName());
+
+        em.persist(new Product("애플TV", "가전제품", 10000000, toDate("2014-01-01 09:00:00"), toDate("2014-12-31 11:59:59")));
+        list = criteriaDao.find(1, 3, "노트북");
         assertTrue(3 == list.size());
         assertEquals("맥북v10", list.get(0).getName());
         assertEquals("맥북v9", list.get(1).getName());

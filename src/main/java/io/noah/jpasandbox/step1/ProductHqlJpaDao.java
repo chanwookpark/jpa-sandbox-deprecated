@@ -10,8 +10,8 @@ import java.util.List;
 /**
  * Created by chanwook on 2014. 10. 22..
  */
-@Repository
-public class ProductJpaDao implements ProductDao {
+@Repository("hqlDao")
+public class ProductHqlJpaDao implements ProductDao {
 
     @PersistenceContext
     EntityManager em;
@@ -26,7 +26,7 @@ public class ProductJpaDao implements ProductDao {
     public List<Product> find(int pageNumber, int itemSize) {
         String queryText =
                 " SELECT p FROM Product p " +
-                " WHERE p.saleOpen < CURRENT_DATE AND p.saleEnd > CURRENT_DATE " +
+                " WHERE p.saleOpen < CURRENT_DATE AND p.saleClose > CURRENT_DATE " +
                 " ORDER BY p.salePrice desc ";
 
         Query query = em.createQuery(queryText);
@@ -41,7 +41,7 @@ public class ProductJpaDao implements ProductDao {
     public List<Product> find(int pageNumber, int itemSize, String category) {
         String queryText =
                 " SELECT p FROM Product p " +
-                " WHERE p.saleOpen < CURRENT_DATE AND p.saleEnd > CURRENT_DATE AND " +
+                " WHERE p.saleOpen < CURRENT_DATE AND p.saleClose > CURRENT_DATE AND " +
                 "   p.category = :category " +
                 " ORDER BY p.salePrice desc ";
 
