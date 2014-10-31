@@ -12,7 +12,7 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private long id;
 
     @Column(name = "PRD_NAME", nullable = false, length = 50)
     private String name;
@@ -21,7 +21,7 @@ public class Product {
     private String category;
 
     @Column(nullable = false)
-    private Long salePrice;
+    private long salePrice;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
@@ -34,7 +34,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(String name, String category, Long salePrice, Date saleOpen, Date saleClose) {
+    public Product(String name, String category, long salePrice, Date saleOpen, Date saleClose) {
         this.name = name;
         this.category = category;
         this.salePrice = salePrice;
@@ -42,11 +42,11 @@ public class Product {
         this.saleClose = saleClose;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -58,11 +58,11 @@ public class Product {
         this.name = name;
     }
 
-    public Long getSalePrice() {
+    public long getSalePrice() {
         return salePrice;
     }
 
-    public void setSalePrice(Long salePrice) {
+    public void setSalePrice(long salePrice) {
         this.salePrice = salePrice;
     }
 
