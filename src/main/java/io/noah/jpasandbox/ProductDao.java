@@ -1,4 +1,6 @@
-package io.noah.jpasandbox.step1;
+package io.noah.jpasandbox;
+
+import io.noah.jpasandbox.model.Product;
 
 import java.util.List;
 

@@ -1,7 +1,9 @@
-package io.noah.jpasandbox.step1;
+package io.noah.jpasandbox.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by chanwook on 2014. 10. 21..
@@ -12,7 +14,7 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private long id;
 
     @Column(nullable = false, length = 100)
     private String name;
@@ -22,6 +24,8 @@ public class Product {
 
     @Column(nullable = false)
     private long salePrice;
+
+    private List<ProductItem> itemList = new ArrayList<ProductItem>();
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date saleOpen;
@@ -40,11 +44,11 @@ public class Product {
         this.saleClose = saleClose;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

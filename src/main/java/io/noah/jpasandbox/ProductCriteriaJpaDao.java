@@ -1,5 +1,6 @@
-package io.noah.jpasandbox.step1;
+package io.noah.jpasandbox;
 
+import io.noah.jpasandbox.model.Product;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

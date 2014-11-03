@@ -1,4 +1,4 @@
-package io.noah.jpasandbox.step1;
+package io.noah.jpasandbox;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

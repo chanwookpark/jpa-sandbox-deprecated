@@ -1,5 +1,8 @@
 package io.noah.jpasandbox.step1;
 
+import io.noah.jpasandbox.JpaContextConfig;
+import io.noah.jpasandbox.ProductDao;
+import io.noah.jpasandbox.model.Product;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
