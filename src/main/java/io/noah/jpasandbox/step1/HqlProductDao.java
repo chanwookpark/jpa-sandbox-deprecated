@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by chanwook on 2014. 10. 31..
  */
-@Repository
+@Repository("hqlDao")
 public class HqlProductDao implements ProductDao {
 
     @PersistenceContext(name = "pu-sandbox")

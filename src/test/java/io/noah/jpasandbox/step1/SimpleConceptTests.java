@@ -2,6 +2,7 @@ package io.noah.jpasandbox.step1;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
@@ -24,11 +25,58 @@ public class SimpleConceptTests extends AbstractTransactionalJUnit4SpringContext
     EntityManager em;
 
     @Autowired
+    @Qualifier("hqlDao")
     ProductDao hqlDao;
+
+    @Autowired
+    @Qualifier("criteriaDao")
+    ProductDao criteriaDao;
 
     @Test
     public void config() throws Exception {
         assertNotNull(em);
+    }
+
+    @Test
+    public void queryWithCriteria() throws Exception {
+        createTestProduct(10);
+
+        List<Product> list = criteriaDao.find();
+        assertTrue(10 == list.size());
+
+        list = criteriaDao.find(3, 2);
+
+        assertTrue(3 == list.size());
+        /* 정렬조건 안 줬을때.. */
+//        assertEquals(4, list.get(0).getId());
+//        assertEquals(5, list.get(1).getId());
+//        assertEquals(6, list.get(2).getId());
+
+        // 판매가 높은 순 정렬
+        assertEquals(7, list.get(0).getId());
+        assertEquals(6, list.get(1).getId());
+        assertEquals(5, list.get(2).getId());
+
+        em.persist(
+                new Product("old맥북", "노트북", 1000000,
+                        toDate("2013-01-01 12:00:00"), toDate("2013-12-30 12:00:00")));
+
+        list = criteriaDao.find(3, 2);
+        assertTrue(3 == list.size());
+        assertEquals(7, list.get(0).getId());
+        assertEquals(6, list.get(1).getId());
+        assertEquals(5, list.get(2).getId());
+
+        // 카테고리 비교 (12개)
+        em.persist(
+                new Product("32인치TV", "TV", 1000000,
+                        toDate("2014-01-01 12:00:00"), toDate("2014-12-30 12:00:00")));
+
+        list = criteriaDao.find(3, 2, "노트북");
+        assertTrue(3 == list.size());
+        assertEquals(7, list.get(0).getId());
+        assertEquals(6, list.get(1).getId());
+        assertEquals(5, list.get(2).getId());
     }
 
     @Test
