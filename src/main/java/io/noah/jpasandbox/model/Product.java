@@ -25,6 +25,7 @@ public class Product {
     @Column(nullable = false)
     private long salePrice;
 
+    @OneToMany(cascade = CascadeType.PERSIST)
     private List<ProductItem> itemList = new ArrayList<ProductItem>();
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -90,5 +91,9 @@ public class Product {
 
     public void setSaleClose(Date saleEnd) {
         this.saleClose = saleEnd;
+    }
+
+    public void addItem(ProductItem item) {
+        this.itemList.add(item);
     }
 }

@@ -22,6 +22,15 @@ public class ProductItem {
     @Column(name = "STOCK", nullable = false)
     private long stock;
 
+    public ProductItem() {
+    }
+
+    public ProductItem(String itemName, long extraPrice, long stock) {
+        this.itemName = itemName;
+        this.extraPrice = extraPrice;
+        this.stock = stock;
+    }
+
     public long getItemId() {
         return itemId;
     }

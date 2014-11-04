@@ -48,6 +48,7 @@ dependencies {
     compile 'org.slf4j:jcl-over-slf4j:1.7.7'
 
     // DataAccess (DB)
-    compile 'com.h2database:h2:1.4.182'
+    //compile 'com.h2database:h2:1.4.182'
+    compile 'mysql:mysql-connector-java:5.1.33'
 
 }

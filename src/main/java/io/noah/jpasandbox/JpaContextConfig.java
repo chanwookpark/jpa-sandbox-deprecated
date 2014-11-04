@@ -1,11 +1,9 @@
 package io.noah.jpasandbox;
 
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.hibernate4.HibernateExceptionTranslator;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -30,11 +28,22 @@ import java.util.HashMap;
 @EnableTransactionManagement
 public class JpaContextConfig {
 
+    /*
     @Bean
     public DataSource dataSource() throws Exception {
         EmbeddedDatabaseBuilder b = new EmbeddedDatabaseBuilder();
         EmbeddedDatabase db = b.setType(EmbeddedDatabaseType.H2).build();
         return db;
+    }
+    */
+    @Bean
+    public DataSource dataSource() throws Exception {
+        ComboPooledDataSource pool = new ComboPooledDataSource();
+        pool.setDriverClass("com.mysql.jdbc.Driver");
+        pool.setJdbcUrl("jdbc:mysql://localhost:3306/jpasandbox");
+        pool.setUser("jpasandbox");
+        pool.setPassword("jpasandbox");
+        return pool;
     }
 
     @Bean
@@ -42,7 +51,7 @@ public class JpaContextConfig {
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         vendorAdapter.setGenerateDdl(true);
         vendorAdapter.setShowSql(true);
-        vendorAdapter.setDatabase(Database.H2);
+        vendorAdapter.setDatabase(Database.MYSQL);
 
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
@@ -51,6 +60,7 @@ public class JpaContextConfig {
         factory.setPersistenceUnitName("pu-sandbox");
 
         HashMap<String, Object> jpaProperties = new HashMap<String, Object>();
+        jpaProperties.put("hibernate.hbm2ddl.auto", "create");
 
         factory.setJpaPropertyMap(jpaProperties);
         factory.afterPropertiesSet();

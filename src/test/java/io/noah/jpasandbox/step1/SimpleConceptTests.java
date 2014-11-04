@@ -1,39 +1,19 @@
 package io.noah.jpasandbox.step1;
 
-import io.noah.jpasandbox.JpaContextConfig;
-import io.noah.jpasandbox.ProductDao;
+import io.noah.jpasandbox.ProductTestSupport;
 import io.noah.jpasandbox.model.Product;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import static io.noah.jpasandbox.util.DateUtil.toDate;
 import static org.junit.Assert.*;
 
 /**
  * Created by chanwook on 2014. 10. 1..
  */
-@ContextConfiguration(classes = {JpaContextConfig.class})
-public class SimpleConceptTests extends AbstractTransactionalJUnit4SpringContextTests {
-
-    @PersistenceContext(unitName = "pu-sandbox")
-    EntityManager em;
-
-    @Autowired
-    @Qualifier("hqlDao")
-    ProductDao hqlDao;
-
-    @Autowired
-    @Qualifier("criteriaDao")
-    ProductDao criteriaDao;
+public class SimpleConceptTests extends ProductTestSupport {
 
     @Test
     public void config() throws Exception {
@@ -146,23 +126,5 @@ public class SimpleConceptTests extends AbstractTransactionalJUnit4SpringContext
         assertEquals("맥북v10", list.get(0).getName());
         assertEquals("맥북v9", list.get(1).getName());
         assertEquals("맥북v8", list.get(2).getName());
-    }
-
-    private void createTestProduct(int count) {
-        Date open = toDate("2014-01-01 09:00:00");
-        Date end = toDate("2014-12-31 11:59:59");
-
-        for (int i = 1; i <= count; i++) {
-            em.persist(new Product("맥북v" + i, "노트북", 1000 * (i + 1), open, end));
-        }
-    }
-
-    private Date toDate(String source) {
-        try {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            return formatter.parse(source);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
