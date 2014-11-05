@@ -96,4 +96,12 @@ public class Product {
     public void addItem(ProductItem item) {
         this.itemList.add(item);
     }
+
+    public List<ProductItem> getItemList() {
+        return itemList;
+    }
+
+    public void setItemList(List<ProductItem> itemList) {
+        this.itemList = itemList;
+    }
 }

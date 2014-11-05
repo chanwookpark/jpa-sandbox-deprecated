@@ -1,6 +1,8 @@
 package io.noah.jpasandbox;
 
 import io.noah.jpasandbox.model.Product;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
@@ -17,6 +19,8 @@ import static io.noah.jpasandbox.util.DateUtil.toDate;
  */
 @ContextConfiguration(classes = {JpaContextConfig.class})
 public class ProductTestSupport extends AbstractTransactionalJUnit4SpringContextTests {
+
+    protected Logger logger = LoggerFactory.getLogger(getClass().getClass());
 
     @PersistenceContext(unitName = "pu-sandbox")
     protected EntityManager em;
@@ -35,6 +39,15 @@ public class ProductTestSupport extends AbstractTransactionalJUnit4SpringContext
 
         for (int i = 1; i <= count; i++) {
             em.persist(new Product("맥북v" + i, "노트북", 1000 * (i + 1), open, end));
+        }
+    }
+
+    public void loggingAndSleep(int index, long millisecond) {
+        logger.info(">>> Check point - " + index + " >>>");
+        try {
+            Thread.sleep(millisecond);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 }
