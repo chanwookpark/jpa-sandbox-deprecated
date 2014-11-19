@@ -60,7 +60,7 @@ public class JpaContextConfig {
         factory.setPersistenceUnitName("pu-sandbox");
 
         HashMap<String, Object> jpaProperties = new HashMap<String, Object>();
-//        jpaProperties.put("hibernate.hbm2ddl.auto", "create");
+//        jpaProperties.put("hibernate.hbm2ddl.auto", "create-drop");
 
         factory.setJpaPropertyMap(jpaProperties);
         factory.afterPropertiesSet();

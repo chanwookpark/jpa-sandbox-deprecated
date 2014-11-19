@@ -1,7 +1,6 @@
 package io.noah.jpasandbox;
 
 import io.noah.jpasandbox.model.Product;
-import io.noah.jpasandbox.model.ProductItem;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -93,15 +92,5 @@ public class ProductCriteriaJpaDao implements ProductDao {
         typedQuery.setParameter(paramCategory, category);
 
         return typedQuery.getResultList();
-    }
-
-    @Override
-    public List<Product> findProductWithItem(long productId) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public List<ProductItem> findProductItem(long productId) {
-        throw new UnsupportedOperationException();
     }
 }
