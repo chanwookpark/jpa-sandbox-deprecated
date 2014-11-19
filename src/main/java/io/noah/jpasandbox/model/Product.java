@@ -25,7 +25,7 @@ public class Product {
     @Column(nullable = false)
     private long salePrice;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "product")
     private List<ProductItem> itemList = new ArrayList<ProductItem>();
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -95,6 +95,10 @@ public class Product {
 
     public void addItem(ProductItem item) {
         this.itemList.add(item);
+
+        if(item.getProduct() != this) {
+            item.setProduct(this);
+        }
     }
 
     public List<ProductItem> getItemList() {

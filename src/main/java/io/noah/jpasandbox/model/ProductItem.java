@@ -22,6 +22,10 @@ public class ProductItem {
     @Column(name = "STOCK", nullable = false)
     private long stock;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PRODUCT_ID")
+    private Product product;
+
     public ProductItem() {
     }
 
@@ -61,5 +65,13 @@ public class ProductItem {
 
     public void setStock(long stock) {
         this.stock = stock;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

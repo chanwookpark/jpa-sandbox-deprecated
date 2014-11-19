@@ -1,6 +1,7 @@
 package io.noah.jpasandbox;
 
 import io.noah.jpasandbox.model.Product;
+import io.noah.jpasandbox.model.ProductItem;
 
 import java.util.List;
 
@@ -13,4 +14,8 @@ public interface ProductDao {
     List<Product> find(int pageNumber, int itemSize);
 
     List<Product> find(int pageNumber, int itemSize, String category);
+
+    List<Product> findProductWithItem(long productId);
+
+    List<ProductItem> findProductItem(long productId);
 }

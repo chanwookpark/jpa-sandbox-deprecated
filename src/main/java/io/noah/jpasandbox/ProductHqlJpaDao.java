@@ -1,11 +1,13 @@
 package io.noah.jpasandbox;
 
 import io.noah.jpasandbox.model.Product;
+import io.noah.jpasandbox.model.ProductItem;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 /**
@@ -52,6 +54,34 @@ public class ProductHqlJpaDao implements ProductDao {
         query.setFirstResult((pageNumber - 1) * itemSize);
         query.setMaxResults(itemSize);
 
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Product> findProductWithItem(long productId) {
+        Query query = em.createQuery(
+                " SELECT p FROM Product p WHERE p.id = :prdId ",
+                Product.class);
+        /*
+        Query query = em.createQuery(
+                " SELECT distinct p FROM Product p join p.itemList itemList WHERE p.id = :prdId ",
+                Product.class);
+        Query query = em.createQuery(
+                " SELECT p FROM Product p join p.itemList il WHERE p.id = :prdId ",
+                Product.class);
+        */
+
+        query.setParameter("prdId", productId);
+
+        return query.getResultList();
+    }
+
+    @Override
+    public List<ProductItem> findProductItem(long productId) {
+        TypedQuery<ProductItem> query = em.createQuery(
+                "SELECT pi FROM ProductItem pi WHERE pi.product.id = :prdId",
+                ProductItem.class);
+        query.setParameter("prdId", productId);
         return query.getResultList();
     }
 }

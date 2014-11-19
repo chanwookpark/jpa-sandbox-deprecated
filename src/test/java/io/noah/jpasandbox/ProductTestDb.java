@@ -53,6 +53,20 @@ public class ProductTestDb extends AbstractJUnit4SpringContextTests {
 
             }
         });
+
+        new TransactionTemplate(txManager).execute(new TransactionCallbackWithoutResult() {
+            @Override
+            protected void doInTransactionWithoutResult(TransactionStatus status) {
+
+                Product p = new Product("뽀로로 양말", "의류", 1000,
+                        toDate("2014-01-01 09:00:00"), toDate("2014-12-30 11:59:59"));
+                for (int i = 1; i < 100; i++) {
+                    p.addItem(new ProductItem(i + "사이즈", 0, 100));
+                }
+                em.persist(p);
+
+            }
+        });
     }
 
 }

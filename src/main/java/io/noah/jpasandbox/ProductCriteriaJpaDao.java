@@ -1,6 +1,7 @@
 package io.noah.jpasandbox;
 
 import io.noah.jpasandbox.model.Product;
+import io.noah.jpasandbox.model.ProductItem;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -43,11 +44,11 @@ public class ProductCriteriaJpaDao implements ProductDao {
 
         Root<Product> r = query.from(Product.class);
         query
-            .select(r)
-            .where(
-                    cb.lessThanOrEqualTo(r.<Date>get("saleOpen"), paramOpen),
-                    cb.greaterThanOrEqualTo(r.<Date>get("saleClose"), paramClose))
-            .orderBy(cb.desc(r.get("salePrice")))
+                .select(r)
+                .where(
+                        cb.lessThanOrEqualTo(r.<Date>get("saleOpen"), paramOpen),
+                        cb.greaterThanOrEqualTo(r.<Date>get("saleClose"), paramClose))
+                .orderBy(cb.desc(r.get("salePrice")))
         ;
 
 
@@ -92,5 +93,15 @@ public class ProductCriteriaJpaDao implements ProductDao {
         typedQuery.setParameter(paramCategory, category);
 
         return typedQuery.getResultList();
+    }
+
+    @Override
+    public List<Product> findProductWithItem(long productId) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<ProductItem> findProductItem(long productId) {
+        throw new UnsupportedOperationException();
     }
 }
