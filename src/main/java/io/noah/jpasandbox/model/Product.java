@@ -1,7 +1,9 @@
 package io.noah.jpasandbox.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by chanwook on 2014. 10. 21..
@@ -23,6 +25,8 @@ public class Product {
     @Column(nullable = false)
     private long salePrice;
 
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "product")
+    private List<ProductItem> itemList = new ArrayList<ProductItem>();
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date saleOpen;
@@ -89,4 +93,19 @@ public class Product {
         this.saleClose = saleEnd;
     }
 
+    public void addItem(ProductItem item) {
+        this.itemList.add(item);
+
+        if (item.getProduct() == null) {
+            item.setProduct(this);
+        }
+    }
+
+    public List<ProductItem> getItemList() {
+        return itemList;
+    }
+
+    public void setItemList(List<ProductItem> itemList) {
+        this.itemList = itemList;
+    }
 }
