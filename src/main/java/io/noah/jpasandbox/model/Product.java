@@ -49,6 +49,16 @@ public class Product {
         this.saleClose = saleClose;
     }
 
+    public Product(long id, String name, String category, long salePrice, Date saleOpen, Date saleClose) {
+        this.id = id;
+        this.name = name;
+        this.category = category;
+        this.salePrice = salePrice;
+        this.saleOpen = saleOpen;
+        this.saleClose = saleClose;
+    }
+
+
     public long getId() {
         return id;
     }

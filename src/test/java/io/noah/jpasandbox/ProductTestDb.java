@@ -34,7 +34,7 @@ public class ProductTestDb extends AbstractJUnit4SpringContextTests {
             @Override
             protected void doInTransactionWithoutResult(TransactionStatus status) {
 
-                Product p = new Product("맥북에어", "노트북", 1000, toDate("2014-01-01 09:00:00"), toDate("2014-12-30 11:59:59"));
+                Product p = new Product(1L, "맥북에어", "노트북", 1000, toDate("2014-01-01 09:00:00"), toDate("2014-12-30 11:59:59"));
                 ProductItem item1 = new ProductItem("11인치 기본형", 0, 100);
                 ProductItem item2 = new ProductItem("11인치 고급형", 100, 100);
                 ProductItem item3 = new ProductItem("13인치 기본형", 500, 100);
@@ -45,7 +45,6 @@ public class ProductTestDb extends AbstractJUnit4SpringContextTests {
                 p.addItem(item4);
 
                 em.persist(p);
-
             }
         });
     }
@@ -55,11 +54,6 @@ public class ProductTestDb extends AbstractJUnit4SpringContextTests {
         new TransactionTemplate(txManager).execute(new TransactionCallbackWithoutResult() {
             @Override
             protected void doInTransactionWithoutResult(TransactionStatus status) {
-
-                Product product = em.find(Product.class, 1L);
-                if(product !=null) {
-                    em.remove(product);
-                }
 
                 for (int i = 0; i < 10; i++) {
                     Product p =
