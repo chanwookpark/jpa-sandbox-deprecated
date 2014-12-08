@@ -50,4 +50,8 @@ public class ProductTestSupport extends AbstractTransactionalJUnit4SpringContext
             throw new RuntimeException(e);
         }
     }
+
+    public void loggingAndSleep(int index) {
+        this.loggingAndSleep(index, 500);
+    }
 }

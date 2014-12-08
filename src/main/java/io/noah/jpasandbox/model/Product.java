@@ -1,5 +1,8 @@
 package io.noah.jpasandbox.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,7 +28,8 @@ public class Product {
     @Column(nullable = false)
     private long salePrice;
 
-    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "product")
+    @Fetch(FetchMode.SUBSELECT)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.LAZY)
     private List<ProductItem> itemList = new ArrayList<ProductItem>();
 
     @Temporal(TemporalType.TIMESTAMP)
